@@ -35,13 +35,12 @@ namespace TaskManager
             _currentTasks = new List<TaskItem>();
             _quickSelectedTags = new List<TaskTag>();
             
-            InitializeComboBoxes();
+            InitializeControls();
             LoadTodayTasksToQuadrants();
             UpdateDateTitle();
             UpdateStatus("应用程序已启动");
-        }
-
-        private void InitializeComboBoxes()
+        }       
+ private void InitializeControls()
         {
             // 初始化象限下拉框 (列表视图用)
             cmbQuadrant.Items.Add(new ComboBoxItem { Content = "紧急且重要", Tag = TaskQuadrant.UrgentImportant });
@@ -58,6 +57,19 @@ namespace TaskManager
             for (int i = 1; i <= 5; i++)
             {
                 cmbPriority.Items.Add(new ComboBoxItem { Content = i.ToString(), Tag = i });
+            }
+
+            // 初始化列表视图的分类下拉框
+            if (cmbListCategory != null)
+            {
+                foreach (TaskCategory category in Enum.GetValues<TaskCategory>())
+                {
+                    cmbListCategory.Items.Add(new ComboBoxItem 
+                    { 
+                        Content = GetCategoryDescription(category), 
+                        Tag = category 
+                    });
+                }
             }
 
             // 初始化快速添加的象限下拉框
@@ -80,6 +92,8 @@ namespace TaskManager
             cmbQuadrant.SelectedIndex = 0;
             cmbStatus.SelectedIndex = 0;
             cmbPriority.SelectedIndex = 0;
+            if (cmbListCategory != null)
+                cmbListCategory.SelectedIndex = 0;
             cmbQuickQuadrant.SelectedIndex = 0;
             cmbQuickCategory.SelectedIndex = 0;
             dpDueDate.SelectedDate = DateTime.Today;
@@ -151,6 +165,115 @@ namespace TaskManager
             txtStatus.Text = $"{DateTime.Now:HH:mm:ss} - {message}";
         }
 
+        // DataGrid选择事件处理
+        private void DgTasks_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgTasks.SelectedItem is TaskItem selectedTask)
+            {
+                _selectedTask = selectedTask;
+                LoadTaskToForm(selectedTask);
+                
+                // 启用编辑和删除按钮
+                if (btnUpdateTask != null)
+                    btnUpdateTask.IsEnabled = true;
+                if (btnDeleteTask != null)
+                    btnDeleteTask.IsEnabled = true;
+            }
+            else
+            {
+                _selectedTask = null;
+                ClearTaskForm();
+                
+                // 禁用编辑和删除按钮
+                if (btnUpdateTask != null)
+                    btnUpdateTask.IsEnabled = false;
+                if (btnDeleteTask != null)
+                    btnDeleteTask.IsEnabled = false;
+            }
+        } 
+       private void LoadTaskToForm(TaskItem task)
+        {
+            if (task == null) return;
+
+            txtTitle.Text = task.Title;
+            txtDescription.Text = task.Description;
+            dpDueDate.SelectedDate = task.DueDate;
+
+            // 设置分类
+            if (cmbListCategory != null)
+            {
+                foreach (ComboBoxItem item in cmbListCategory.Items)
+                {
+                    if ((TaskCategory)item.Tag == task.Category)
+                    {
+                        cmbListCategory.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+
+            // 设置象限
+            foreach (ComboBoxItem item in cmbQuadrant.Items)
+            {
+                if ((TaskQuadrant)item.Tag == task.Quadrant)
+                {
+                    cmbQuadrant.SelectedItem = item;
+                    break;
+                }
+            }
+
+            // 设置状态
+            foreach (ComboBoxItem item in cmbStatus.Items)
+            {
+                if ((TaskStatus)item.Tag == task.Status)
+                {
+                    cmbStatus.SelectedItem = item;
+                    break;
+                }
+            }
+
+            // 设置优先级
+            foreach (ComboBoxItem item in cmbPriority.Items)
+            {
+                if ((int)item.Tag == task.Priority)
+                {
+                    cmbPriority.SelectedItem = item;
+                    break;
+                }
+            }
+        }
+
+        private void ClearTaskForm()
+        {
+            txtTitle.Text = "";
+            txtDescription.Text = "";
+            dpDueDate.SelectedDate = DateTime.Today;
+            cmbQuadrant.SelectedIndex = 0;
+            if (cmbListCategory != null)
+                cmbListCategory.SelectedIndex = 0;
+            cmbStatus.SelectedIndex = 0;
+            cmbPriority.SelectedIndex = 0;
+        }
+
+        private bool ValidateTaskForm()
+        {
+            if (string.IsNullOrWhiteSpace(txtTitle.Text))
+            {
+                MessageBox.Show("请输入任务标题", "验证错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                txtTitle.Focus();
+                return false;
+            }
+
+            if (dpDueDate.SelectedDate == null)
+            {
+                MessageBox.Show("请选择截止日期", "验证错误", MessageBoxButton.OK, MessageBoxImage.Warning);
+                dpDueDate.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
         // 菜单和按钮事件处理
         private void AddTask_Click(object sender, RoutedEventArgs e)
         {
@@ -176,6 +299,43 @@ namespace TaskManager
             else
             {
                 MessageBox.Show("请先选择要编辑的任务", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void UpdateTask_Click(object sender, RoutedEventArgs e)
+        {
+            if (_selectedTask == null)
+            {
+                MessageBox.Show("请先选择要更新的任务", "提示", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (ValidateTaskForm())
+            {
+                // 更新任务属性
+                _selectedTask.Title = txtTitle.Text.Trim();
+                _selectedTask.Description = txtDescription.Text.Trim();
+                _selectedTask.DueDate = dpDueDate.SelectedDate ?? DateTime.Today;
+                _selectedTask.Quadrant = (TaskQuadrant)((ComboBoxItem)cmbQuadrant.SelectedItem).Tag;
+                _selectedTask.Status = (TaskStatus)((ComboBoxItem)cmbStatus.SelectedItem).Tag;
+                _selectedTask.Priority = (int)((ComboBoxItem)cmbPriority.SelectedItem).Tag;
+                
+                // 设置分类
+                if (cmbListCategory != null && cmbListCategory.SelectedItem != null)
+                {
+                    _selectedTask.Category = (TaskCategory)((ComboBoxItem)cmbListCategory.SelectedItem).Tag;
+                }
+                
+                _selectedTask.ModifiedDate = DateTime.Now;
+
+                // 保存到数据服务
+                _dataService.UpdateTask(_selectedTask);
+                
+                // 刷新视图
+                RefreshCurrentView();
+                UpdateStatus("任务已更新");
+                
+                MessageBox.Show("任务更新成功！", "成功", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
@@ -207,7 +367,20 @@ namespace TaskManager
             }
         }
 
-        // 任务选择事件
+        private void ClearForm_Click(object sender, RoutedEventArgs e)
+        {
+            ClearTaskForm();
+            _selectedTask = null;
+            
+            // 禁用编辑和删除按钮
+            if (btnUpdateTask != null)
+                btnUpdateTask.IsEnabled = false;
+            if (btnDeleteTask != null)
+                btnDeleteTask.IsEnabled = false;
+                
+            UpdateStatus("表单已清空");
+        }   
+     // 任务选择事件
         private void TaskItem_Click(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border border && border.DataContext is TaskItem task)
@@ -360,9 +533,8 @@ namespace TaskManager
             dpQuickDueDate.SelectedDate = DateTime.Today;
             _quickSelectedTags.Clear();
             UpdateQuickSelectedTags();
-        }
-
-        private void LoadQuickAddTags()
+        } 
+       private void LoadQuickAddTags()
         {
             // 如果控件存在才清空和添加
             if (pnlQuickTags != null)
@@ -444,7 +616,7 @@ namespace TaskManager
                     {
                         Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)) { Opacity = 0.5 },
                         BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)),
-                        BorderThickness = new Thickness(1),
+                        BorderThickness = new Thickness(1, 1, 1, 1),
                         CornerRadius = new CornerRadius(3),
                         Margin = new Thickness(2, 2, 2, 2),
                         Padding = new Thickness(4, 2, 4, 2)
@@ -767,17 +939,6 @@ namespace TaskManager
             {
                 EditTask_Click(sender, e);
             }
-        }
-
-        private void UpdateTask_Click(object sender, RoutedEventArgs e)
-        {
-            // 这个方法在新版本中被EditTask_Click替代
-            EditTask_Click(sender, e);
-        }
-
-        private void ClearForm_Click(object sender, RoutedEventArgs e)
-        {
-            ClearQuickAddForm();
         }
 
         // 添加RefreshTasks方法供MiniWidget调用

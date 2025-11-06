@@ -308,11 +308,13 @@
                 <GroupBox Grid.Column="1" Header="任务列表" Margin="0,0,10,0">
                     <DataGrid Name="dgTasks" AutoGenerateColumns="False" CanUserAddRows="False" 
                               SelectionMode="Single" GridLinesVisibility="Horizontal"
-                              MouseDoubleClick="TaskList_MouseDoubleClick">
+                              MouseDoubleClick="TaskList_MouseDoubleClick" SelectionChanged="DgTasks_SelectionChanged">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="状态" Binding="{Binding Status}" Width="60"/>
                             <DataGridTextColumn Header="标题" Binding="{Binding Title}" Width="*"/>
+                            <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="80"/>
                             <DataGridTextColumn Header="象限" Binding="{Binding Quadrant}" Width="120"/>
+                            <DataGridTextColumn Header="标签" Binding="{Binding TagsDisplay}" Width="150"/>
                             <DataGridTextColumn Header="截止日期" Binding="{Binding DueDate, StringFormat=yyyy-MM-dd}" Width="100"/>
                             <DataGridTextColumn Header="优先级" Binding="{Binding Priority}" Width="60"/>
                         </DataGrid.Columns>
@@ -328,6 +330,9 @@
                             
                             <Label Content="描述:"/>
                             <TextBox Name="txtDescription" Margin="5,0,5,10" Height="80" TextWrapping="Wrap" AcceptsReturn="True"/>
+                            
+                            <Label Content="任务分类:"/>
+                            <ComboBox Name="cmbListCategory" Margin="5,0,5,10"/>
                             
                             <Label Content="象限:"/>
                             <ComboBox Name="cmbQuadrant" Margin="5,0,5,10"/>
