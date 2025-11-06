@@ -348,8 +348,14 @@ namespace TaskManager
                 
                 if (result == MessageBoxResult.Yes)
                 {
-                    _dataService.DeleteTask(_selectedTask.Id);
+                    string deletedTaskId = _selectedTask.Id;
+                    _dataService.DeleteTask(deletedTaskId);
+                    
+                    // 从当前任务列表中移除已删除的任务
+                    _currentTasks.RemoveAll(t => t.Id == deletedTaskId);
+                    
                     _selectedTask = null;
+                    ClearTaskForm();
                     
                     // 更新按钮状态
                     if (btnUpdateTask != null)
