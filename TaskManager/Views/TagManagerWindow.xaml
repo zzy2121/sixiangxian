@@ -32,7 +32,14 @@
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
                         <DataGridTextColumn Header="名称" Binding="{Binding Name}" Width="*"/>
-                        <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="100"/>
+                        <DataGridTextColumn Header="分类" Binding="{Binding Category}" Width="80"/>
+                        <DataGridTemplateColumn Header="类型" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding TagType}" HorizontalAlignment="Center"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>

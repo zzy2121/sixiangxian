@@ -397,16 +397,32 @@
                             <Label Content="截止日期:"/>
                             <DatePicker Name="dpQuickDueDate" Margin="0,0,0,10"/>
                             
-                            <Label Content="选择标签:"/>
-                            <WrapPanel Name="pnlQuickTags" Margin="0,0,0,10" MinHeight="40" Background="#F5F5F5"/>
+                            <Label Content="可选标签:" FontWeight="Bold"/>
+                            <Border BorderBrush="LightGray" BorderThickness="1" Padding="8" 
+                                   Margin="0,5,0,15" MinHeight="60" Background="White">
+                                <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="100">
+                                    <WrapPanel Name="pnlQuickTags"/>
+                                </ScrollViewer>
+                            </Border>
                             
-                            <Label Content="已选标签:"/>
-                            <WrapPanel Name="pnlQuickSelectedTags" Margin="0,0,0,10" MinHeight="30" Background="#E8F5E8"/>
+                            <Label Content="已选标签:" FontWeight="Bold"/>
+                            <Border BorderBrush="LightGray" BorderThickness="1" Padding="8" 
+                                   Margin="0,5,0,15" MinHeight="35" Background="#F8F8F8">
+                                <WrapPanel Name="pnlQuickSelectedTags"/>
+                            </Border>
                             
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Name="btnQuickCreateTag" Content="创建标签" Padding="10,5" Margin="0,0,10,0" Click="QuickCreateTag_Click"/>
-                                <Button Name="btnQuickClearTags" Content="清空标签" Padding="10,5" Click="QuickClearTags_Click"/>
+                                <Button Name="btnQuickCreateTag" Content="➕ 创建标签" Padding="12,6" 
+                                       Margin="0,0,15,0" Click="QuickCreateTag_Click" Background="#4CAF50" 
+                                       Foreground="White" BorderThickness="0"/>
+                                <Button Name="btnQuickClearTags" Content="🗑️ 清空标签" Padding="12,6" 
+                                       Click="QuickClearTags_Click" Background="#FF5722" 
+                                       Foreground="White" BorderThickness="0"/>
                             </StackPanel>
+                            
+                            <TextBlock Text="💡 点击可选标签添加到任务，点击已选标签的 × 移除" 
+                                      FontSize="11" Foreground="Gray" TextAlignment="Center" 
+                                      Margin="0,10,0,0" TextWrapping="Wrap"/>
                         </StackPanel>
                     </ScrollViewer>
                     

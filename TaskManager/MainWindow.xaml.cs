@@ -86,7 +86,7 @@ namespace TaskManager
             dpQuickDueDate.SelectedDate = DateTime.Today;
 
             // 初始化快速添加的标签
-            // LoadQuickAddTags(); // 暂时注释掉，因为控件可能不存在
+            LoadQuickAddTags();
         }
 
         private string GetCategoryDescription(TaskCategory category)
@@ -191,9 +191,11 @@ namespace TaskManager
                     _dataService.DeleteTask(_selectedTask.Id);
                     _selectedTask = null;
                     
-                    // 更新菜单状态
-                    mnuEditTask.IsEnabled = false;
-                    mnuDeleteTask.IsEnabled = false;
+                    // 更新按钮状态
+                    if (btnUpdateTask != null)
+                        btnUpdateTask.IsEnabled = false;
+                    if (btnDeleteTask != null)
+                        btnDeleteTask.IsEnabled = false;
                     
                     RefreshCurrentView();
                     UpdateStatus("任务已删除");
@@ -218,8 +220,11 @@ namespace TaskManager
         private void UpdateTaskSelection(TaskItem task)
         {
             _selectedTask = task;
-            mnuEditTask.IsEnabled = task != null;
-            mnuDeleteTask.IsEnabled = task != null;
+            // 更新列表视图中的按钮状态
+            if (btnUpdateTask != null)
+                btnUpdateTask.IsEnabled = task != null;
+            if (btnDeleteTask != null)
+                btnDeleteTask.IsEnabled = task != null;
         }
 
         private void RefreshCurrentView()
@@ -359,32 +364,59 @@ namespace TaskManager
 
         private void LoadQuickAddTags()
         {
-            // 暂时注释掉，因为控件可能不存在
-            /*
             // 如果控件存在才清空和添加
-            if (pnlQuickAvailableTags != null)
+            if (pnlQuickTags != null)
             {
-                pnlQuickAvailableTags.Children.Clear();
+                pnlQuickTags.Children.Clear();
                 var allTags = _tagService.GetAllTags();
+
+                if (allTags == null || !allTags.Any())
+                {
+                    var noTagsText = new TextBlock
+                    {
+                        Text = "暂无可用标签，点击下方按钮创建新标签",
+                        Foreground = Brushes.Gray,
+                        FontStyle = FontStyles.Italic,
+                        Margin = new Thickness(5),
+                        FontSize = 11,
+                        TextWrapping = TextWrapping.Wrap
+                    };
+                    pnlQuickTags.Children.Add(noTagsText);
+                    return;
+                }
 
                 foreach (var tag in allTags)
                 {
                     var button = new Button
                     {
                         Content = tag.Name,
-                        Margin = new Thickness(2, 2, 2, 2),
-                        Padding = new Thickness(6, 3, 6, 3),
+                        Margin = new Thickness(3, 3, 3, 3),
+                        Padding = new Thickness(8, 4, 8, 4),
                         Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)) { Opacity = 0.3 },
                         BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)),
+                        BorderThickness = new Thickness(1),
                         Tag = tag,
-                        FontSize = 10
+                        FontSize = 11,
+                        Cursor = System.Windows.Input.Cursors.Hand,
+                        ToolTip = $"{tag.Name} ({tag.TagType})"
+                    };
+                    
+                    // 添加悬停效果
+                    button.MouseEnter += (s, e) => 
+                    {
+                        if (s is Button btn && btn.Tag is TaskTag hoverTag)
+                            btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(hoverTag.Color)) { Opacity = 0.6 };
+                    };
+                    button.MouseLeave += (s, e) => 
+                    {
+                        if (s is Button btn && btn.Tag is TaskTag leaveTag)
+                            btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(leaveTag.Color)) { Opacity = 0.3 };
                     };
                     
                     button.Click += QuickTagButton_Click;
-                    pnlQuickAvailableTags.Children.Add(button);
+                    pnlQuickTags.Children.Add(button);
                 }
             }
-            */
         }
 
         private void QuickTagButton_Click(object sender, RoutedEventArgs e)

@@ -187,16 +187,44 @@ namespace TaskManager.Views
             pnlAvailableTags.Children.Clear();
             var allTags = _tagService.GetAllTags();
 
+            if (allTags == null || !allTags.Any())
+            {
+                var noTagsText = new TextBlock
+                {
+                    Text = "暂无可用标签，点击下方按钮创建新标签",
+                    Foreground = Brushes.Gray,
+                    FontStyle = FontStyles.Italic,
+                    Margin = new Thickness(5)
+                };
+                pnlAvailableTags.Children.Add(noTagsText);
+                return;
+            }
+
             foreach (var tag in allTags)
             {
                 var button = new Button
                 {
                     Content = tag.Name,
-                    Margin = new Thickness(2, 2, 2, 2),
-                    Padding = new Thickness(8, 4, 8, 4),
+                    Margin = new Thickness(3, 3, 3, 3),
+                    Padding = new Thickness(10, 6, 10, 6),
                     Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)) { Opacity = 0.3 },
                     BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)),
-                    Tag = tag
+                    BorderThickness = new Thickness(1),
+                    Tag = tag,
+                    Cursor = System.Windows.Input.Cursors.Hand,
+                    ToolTip = $"{tag.Name} ({tag.TagType})"
+                };
+                
+                // 添加悬停效果
+                button.MouseEnter += (s, e) => 
+                {
+                    if (s is Button btn)
+                        btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)) { Opacity = 0.6 };
+                };
+                button.MouseLeave += (s, e) => 
+                {
+                    if (s is Button btn)
+                        btn.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(tag.Color)) { Opacity = 0.3 };
                 };
                 
                 button.Click += TagButton_Click;

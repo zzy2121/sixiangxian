@@ -74,19 +74,32 @@
                 <!-- 标签设置 -->
                 <GroupBox Header="标签设置" Margin="0,0,0,15">
                     <StackPanel Margin="10">
-                        <Label Content="选择标签:"/>
-                        <WrapPanel Name="pnlAvailableTags" Margin="0,0,0,10"/>
+                        <Label Content="可选标签:" FontWeight="Bold"/>
+                        <Border BorderBrush="LightGray" BorderThickness="1" Padding="8" 
+                               Margin="0,5,0,15" MinHeight="80" Background="White">
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="120">
+                                <WrapPanel Name="pnlAvailableTags"/>
+                            </ScrollViewer>
+                        </Border>
                         
-                        <Label Content="已选标签:"/>
-                        <WrapPanel Name="pnlSelectedTags" Margin="0,0,0,10" MinHeight="30" 
-                                  Background="#F5F5F5"/>
+                        <Label Content="已选标签:" FontWeight="Bold"/>
+                        <Border BorderBrush="LightGray" BorderThickness="1" Padding="8" 
+                               Margin="0,5,0,15" MinHeight="40" Background="#F8F8F8">
+                            <WrapPanel Name="pnlSelectedTags"/>
+                        </Border>
                         
-                        <StackPanel Orientation="Horizontal">
-                            <Button Name="btnCreateTag" Content="创建新标签" Padding="10,5" 
-                                   Click="CreateTag_Click"/>
-                            <Button Name="btnClearTags" Content="清空标签" Padding="10,5" 
-                                   Margin="10,0,0,0" Click="ClearTags_Click"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Name="btnCreateTag" Content="➕ 创建新标签" Padding="12,6" 
+                                   Click="CreateTag_Click" Background="#4CAF50" Foreground="White"
+                                   BorderThickness="0"/>
+                            <Button Name="btnClearTags" Content="🗑️ 清空标签" Padding="12,6" 
+                                   Margin="15,0,0,0" Click="ClearTags_Click" Background="#FF5722" 
+                                   Foreground="White" BorderThickness="0"/>
                         </StackPanel>
+                        
+                        <TextBlock Text="💡 点击可选标签添加到任务，点击已选标签的 × 移除" 
+                                  FontSize="11" Foreground="Gray" TextAlignment="Center" 
+                                  Margin="0,10,0,0" TextWrapping="Wrap"/>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

@@ -13,6 +13,8 @@ namespace TaskManager.Views
     {
         private readonly TagService _tagService;
         private string _selectedColor = "#2196F3";
+        private TaskTag _editingTag = null;
+        private bool _isEditMode = false;
 
         public CreateTagWindow(TagService tagService)
         {
@@ -24,7 +26,11 @@ namespace TaskManager.Views
         // 编辑标签的构造函数
         public CreateTagWindow(TagService tagService, TaskTag existingTag) : this(tagService)
         {
+            _editingTag = existingTag;
+            _isEditMode = true;
             Title = "编辑标签";
+            btnCreate.Content = "保存";
+            
             txtTagName.Text = existingTag.Name;
             _selectedColor = existingTag.Color;
             rectColorPreview.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(existingTag.Color));
@@ -63,20 +69,24 @@ namespace TaskManager.Views
 
             foreach (var color in presetColors)
             {
-                var rect = new Rectangle
+                var border = new Border
                 {
-                    Width = 25,
-                    Height = 25,
-                    Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color)),
-                    Stroke = Brushes.Gray,
-                    StrokeThickness = 1,
-                    Margin = new Thickness(2),
+                    Width = 35,
+                    Height = 35,
+                    Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color)),
+                    BorderBrush = Brushes.Gray,
+                    BorderThickness = new Thickness(1),
+                    Margin = new Thickness(3),
                     Cursor = System.Windows.Input.Cursors.Hand,
-                    Tag = color
+                    Tag = color,
+                    ToolTip = $"颜色: {color}"
                 };
 
-                rect.MouseLeftButtonDown += PresetColor_Click;
-                pnlPresetColors.Children.Add(rect);
+                border.MouseLeftButtonDown += PresetColor_Click;
+                border.MouseEnter += (s, e) => border.BorderBrush = Brushes.Black;
+                border.MouseLeave += (s, e) => border.BorderBrush = Brushes.Gray;
+                
+                pnlPresetColors.Children.Add(border);
             }
         }
 
@@ -96,7 +106,7 @@ namespace TaskManager.Views
 
         private void PresetColor_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            if (sender is Rectangle rect && rect.Tag is string color)
+            if (sender is Border border && border.Tag is string color)
             {
                 _selectedColor = color;
                 rectColorPreview.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString(color));
@@ -119,13 +129,34 @@ namespace TaskManager.Views
                 
                 try
                 {
-                    _tagService.CreateCustomTag(tagName, _selectedColor, category);
-                    DialogResult = true;
-                    Close();
+                    if (_isEditMode)
+                    {
+                        // 编辑模式：更新现有标签
+                        if (_tagService.IsCustomTag(_editingTag))
+                        {
+                            _tagService.UpdateCustomTag(_editingTag, tagName, _selectedColor, category);
+                            DialogResult = true;
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("只能编辑自定义标签，预定义标签无法修改", "提示", 
+                                MessageBoxButton.OK, MessageBoxImage.Information);
+                        }
+                    }
+                    else
+                    {
+                        // 创建模式：创建新标签
+                        _tagService.CreateCustomTag(tagName, _selectedColor, category);
+                        MessageBox.Show($"标签 '{tagName}' 创建成功！", "创建成功", 
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                        DialogResult = true;
+                        Close();
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"创建标签失败: {ex.Message}", "错误", 
+                    MessageBox.Show($"{(_isEditMode ? "更新" : "创建")}标签失败: {ex.Message}", "错误", 
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -146,10 +177,20 @@ namespace TaskManager.Views
                 return false;
             }
 
-            // 检查标签名称是否已存在
+            // 检查标签名称是否已存在（编辑模式下排除当前标签）
             var existingTags = _tagService.GetAllTags();
-            if (existingTags.Any(t => t.Name.Equals(txtTagName.Text.Trim(), StringComparison.OrdinalIgnoreCase)))
+            var duplicateTag = existingTags.FirstOrDefault(t => 
+                t.Name.Equals(txtTagName.Text.Trim(), StringComparison.OrdinalIgnoreCase));
+            
+            if (duplicateTag != null)
             {
+                // 如果是编辑模式且重复的标签就是当前编辑的标签，则允许
+                if (_isEditMode && _editingTag != null && 
+                    duplicateTag.Name == _editingTag.Name && duplicateTag.Color == _editingTag.Color)
+                {
+                    return true;
+                }
+                
                 MessageBox.Show("该标签名称已存在", "验证错误", MessageBoxButton.OK, MessageBoxImage.Warning);
                 txtTagName.Focus();
                 return false;

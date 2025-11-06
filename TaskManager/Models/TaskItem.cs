@@ -48,17 +48,21 @@ namespace TaskManager.Models
         public string Name { get; set; }
         public string Color { get; set; }
         public TaskCategory Category { get; set; }
+        public bool IsCustom { get; set; } = false;
+
+        public string TagType => IsCustom ? "自定义" : "预定义";
 
         public TaskTag()
         {
             Color = "#2196F3"; // 默认蓝色
         }
 
-        public TaskTag(string name, string color, TaskCategory category)
+        public TaskTag(string name, string color, TaskCategory category, bool isCustom = false)
         {
             Name = name;
             Color = color;
             Category = category;
+            IsCustom = isCustom;
         }
     }
 

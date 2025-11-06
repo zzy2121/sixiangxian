@@ -28,8 +28,10 @@ namespace TaskManager.Views
         private void DgTags_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var hasSelection = dgTags.SelectedItem != null;
-            btnEditTag.IsEnabled = hasSelection;
-            btnDeleteTag.IsEnabled = hasSelection;
+            var isCustomTag = hasSelection && dgTags.SelectedItem is TaskTag selectedTag && _tagService.IsCustomTag(selectedTag);
+            
+            btnEditTag.IsEnabled = isCustomTag;
+            btnDeleteTag.IsEnabled = isCustomTag;
         }
 
         private void CreateTag_Click(object sender, RoutedEventArgs e)
@@ -57,7 +59,14 @@ namespace TaskManager.Views
         {
             if (dgTags.SelectedItem is TaskTag selectedTag)
             {
-                var result = MessageBox.Show($"确定要删除标签 '{selectedTag.Name}' 吗？", 
+                if (!_tagService.IsCustomTag(selectedTag))
+                {
+                    MessageBox.Show("只能删除自定义标签，预定义标签无法删除", "提示", 
+                        MessageBoxButton.OK, MessageBoxImage.Information);
+                    return;
+                }
+
+                var result = MessageBox.Show($"确定要删除自定义标签 '{selectedTag.Name}' 吗？", 
                     "确认删除", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 
                 if (result == MessageBoxResult.Yes)

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ly\\Desktop\\工作四象限\\TaskManager\\TaskManager.csproj": {}
+    "D:\\小项目\\sixiangxian\\TaskManager\\TaskManager.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ly\\Desktop\\工作四象限\\TaskManager\\TaskManager.csproj": {
+    "D:\\小项目\\sixiangxian\\TaskManager\\TaskManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ly\\Desktop\\工作四象限\\TaskManager\\TaskManager.csproj",
+        "projectUniqueName": "D:\\小项目\\sixiangxian\\TaskManager\\TaskManager.csproj",
         "projectName": "TaskManager",
-        "projectPath": "C:\\Users\\ly\\Desktop\\工作四象限\\TaskManager\\TaskManager.csproj",
+        "projectPath": "D:\\小项目\\sixiangxian\\TaskManager\\TaskManager.csproj",
         "packagesPath": "C:\\Users\\ly\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ly\\Desktop\\工作四象限\\TaskManager\\obj\\",
+        "outputPath": "D:\\小项目\\sixiangxian\\TaskManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -54,12 +54,6 @@
               "target": "Package",
               "version": "[2.20.0, )"
             },
-            "Microsoft.NET.ILLink.Tasks": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[8.0.21, )",
-              "autoReferenced": true
-            },
             "Newtonsoft.Json": {
               "target": "Package",
               "version": "[13.0.3, )"
@@ -80,20 +74,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-              "version": "[8.0.21, 8.0.21]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Runtime.win-x64",
-              "version": "[8.0.21, 8.0.21]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-              "version": "[8.0.21, 8.0.21]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -103,11 +83,6 @@
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
-        }
-      },
-      "runtimes": {
-        "win-x64": {
-          "#import": []
         }
       }
     }
