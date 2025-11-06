@@ -68,15 +68,7 @@ namespace TaskManager.Views
             }
         }
 
-        private void AddTask_Click(object sender, RoutedEventArgs e)
-        {
-            var addWindow = new TaskEditWindow(_dataService, _tagService, DateTime.Today);
-            if (addWindow.ShowDialog() == true)
-            {
-                LoadTodayTasks();
-                _mainWindow?.RefreshTasks();
-            }
-        }
+
 
         private void Refresh_Click(object sender, RoutedEventArgs e)
         {

@@ -19,19 +19,15 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Grid.Column="0" Text="今日任务" FontWeight="Bold" 
                           VerticalAlignment="Center" Margin="10,5"/>
                 
-                <Button Grid.Column="1" Name="btnAddTask" Content="+" Width="20" Height="20" 
-                       FontSize="12" Margin="2" Click="AddTask_Click" ToolTip="快速添加任务"/>
-                
-                <Button Grid.Column="2" Name="btnRefresh" Content="↻" Width="20" Height="20" 
+                <Button Grid.Column="1" Name="btnRefresh" Content="↻" Width="20" Height="20" 
                        FontSize="12" Margin="2" Click="Refresh_Click" ToolTip="刷新"/>
                 
-                <Button Grid.Column="3" Name="btnClose" Content="×" Width="20" Height="20" 
+                <Button Grid.Column="2" Name="btnClose" Content="×" Width="20" Height="20" 
                        FontSize="12" Margin="2" Click="Close_Click" ToolTip="关闭小组件"/>
             </Grid>
             
