@@ -1,0 +1,10 @@
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.csproj.AssemblyReference.cache
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\MainWindow.baml
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\MainWindow.g.cs
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\App.g.cs
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager_MarkupCompile.cache
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.g.resources
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.AssemblyInfoInputs.cache
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.AssemblyInfo.cs
+C:\Users\ly\Desktop\工作四象限\TaskManager\obj\Debug\net6.0-windows\TaskManager.csproj.CoreCompileInputs.cache

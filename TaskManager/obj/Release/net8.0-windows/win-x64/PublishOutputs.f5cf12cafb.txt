@@ -1,0 +1,2 @@
+C:\Users\ly\Desktop\工作四象限\TaskManager\bin\Release\net8.0-windows\win-x64\publish\TaskManager.pdb
+C:\Users\ly\Desktop\工作四象限\TaskManager\bin\Release\net8.0-windows\win-x64\publish\TaskManager.exe
