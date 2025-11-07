@@ -949,3 +949,13 @@ TaskManager/publish-standalone/zh-Hant/UIAutomationProvider.resources.dll
 TaskManager/publish-standalone/zh-Hant/UIAutomationTypes.resources.dll
 TaskManager/publish-standalone/zh-Hant/WindowsBase.resources.dll
 TaskManager/publish-standalone/zh-Hant/WindowsFormsIntegration.resources.dll
+扫雷/bin/Debug/net6.0-windows/Minesweeper.deps.json
+扫雷/bin/Debug/net6.0-windows/Minesweeper.dll
+扫雷/bin/Debug/net6.0-windows/Minesweeper.exe
+扫雷/bin/Debug/net6.0-windows/Minesweeper.pdb
+扫雷/bin/Debug/net6.0-windows/Minesweeper.runtimeconfig.json
+扫雷/bin/Debug/net8.0-windows/Minesweeper.deps.json
+扫雷/bin/Debug/net8.0-windows/Minesweeper.dll
+扫雷/bin/Debug/net8.0-windows/Minesweeper.exe
+扫雷/bin/Debug/net8.0-windows/Minesweeper.pdb
+扫雷/bin/Debug/net8.0-windows/Minesweeper.runtimeconfig.json
