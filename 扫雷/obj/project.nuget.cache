@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "kkZx81CsxXc=",
+  "dgSpecHash": "jaX7jR4iJVk=",
   "success": true,
-  "projectFilePath": "C:\\Users\\ly\\Desktop\\扫雷\\Minesweeper.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "D:\\小项目\\sixiangxian\\扫雷\\Minesweeper.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ly\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\8.0.22\\microsoft.netcore.app.runtime.win-x64.8.0.22.nupkg.sha512",
+    "C:\\Users\\ly\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\8.0.22\\microsoft.windowsdesktop.app.runtime.win-x64.8.0.22.nupkg.sha512",
+    "C:\\Users\\ly\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\8.0.22\\microsoft.aspnetcore.app.runtime.win-x64.8.0.22.nupkg.sha512"
+  ],
   "logs": []
 }

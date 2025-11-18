@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ly\\Desktop\\扫雷\\Minesweeper.csproj": {}
+    "D:\\小项目\\sixiangxian\\扫雷\\Minesweeper.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ly\\Desktop\\扫雷\\Minesweeper.csproj": {
+    "D:\\小项目\\sixiangxian\\扫雷\\Minesweeper.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ly\\Desktop\\扫雷\\Minesweeper.csproj",
+        "projectUniqueName": "D:\\小项目\\sixiangxian\\扫雷\\Minesweeper.csproj",
         "projectName": "Minesweeper",
-        "projectPath": "C:\\Users\\ly\\Desktop\\扫雷\\Minesweeper.csproj",
+        "projectPath": "D:\\小项目\\sixiangxian\\扫雷\\Minesweeper.csproj",
         "packagesPath": "C:\\Users\\ly\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ly\\Desktop\\扫雷\\obj\\",
+        "outputPath": "D:\\小项目\\sixiangxian\\扫雷\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -60,6 +60,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[8.0.22, 8.0.22]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[8.0.22, 8.0.22]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -68,7 +82,12 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100-rc.2.25502.107/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }
